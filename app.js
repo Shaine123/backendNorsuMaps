@@ -73,6 +73,33 @@ app.delete('/deleteUser/:id', (req,res) => {
      .catch((error) => res.json(error))
 })
 
+const buildingInfoSchema = require('./Schema/BuildingInfo')
+
+app.post('/addBuilding', (req,res) => {
+     const {latitude,longitude,title,numFloors,numRooms,grounds,seconds,thirds,fourths} = req.body
+
+     buildingInfoSchema.create({
+      latitude: latitude,
+      longitude: longitude,
+      title: title,
+      numFloors: numFloors,
+      numRooms: numRooms,
+      roomGroundFloor: grounds,
+      roomSecondFloor: seconds,
+      roomThirdFloor: thirds,
+      roomFourthFloor: fourths
+     })
+     .then((result) => res.json(result) )
+     .catch((error) => res.json(error))
+})
+
+app.get('/getBuilding', (req,res) => {
+   console.log('send building info')
+   buildingInfoSchema.find()
+   .then((result) => {res.json(result)})
+   .catch((error) => {res.json(error)} )
+})
+
 app.listen(3003,()=>{
    console.log('Server has Started')
 })
