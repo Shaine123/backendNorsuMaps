@@ -9,7 +9,8 @@ const BuildingInfoSchema = new mongoose.Schema({
    roomGroundFloor: [String],
    roomSecondFloor: [String],
    roomThirdFloor: [String],
-   roomFourthFloor: [String]
+   roomFourthFloor: [String],
+   buildingNewImage: String
 })
 
 const buildingInfoModel = mongoose.model('BuildingInfo', BuildingInfoSchema)
