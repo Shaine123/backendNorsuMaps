@@ -77,7 +77,8 @@ const buildingInfoSchema = require('./Schema/BuildingInfo')
 
 app.post('/addBuilding', (req,res) => {
      const {latitude,longitude,title,numFloors,numRooms,grounds,seconds,thirds,fourths} = req.body
-
+       
+     console.log(req.body)
      buildingInfoSchema.create({
       latitude: latitude,
       longitude: longitude,
