@@ -5,6 +5,7 @@ const BuildingInfoSchema = new mongoose.Schema({
    longitude: Number,
    title: String,
    description: String,
+   textInfo: String,
    numFloors: Number,
    numRooms: Number,
    roomGroundFloor: [String],
