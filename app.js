@@ -32,7 +32,7 @@ app.post('/register', async(req,res) => {
    if(oldUser){
       return res.send({data: "User already exist!!"})
    }
-   try{
+   try{ 
      await userSchema.create({
       name: name,
       email: email,
@@ -76,13 +76,14 @@ app.delete('/deleteUser/:id', (req,res) => {
 const buildingInfoSchema = require('./Schema/BuildingInfo')
 
 app.post('/addBuilding', (req,res) => {
-     const {latitude,longitude,title,numFloors,numRooms,grounds,seconds,thirds,fourths,newImage} = req.body
+     const {latitude,longitude,title,description,numFloors,numRooms,grounds,seconds,thirds,fourths,newImage} = req.body
        
      console.log(req.body)
      buildingInfoSchema.create({
       latitude: latitude,
       longitude: longitude,
       title: title,
+      description: description,
       numFloors: numFloors,
       numRooms: numRooms,
       roomGroundFloor: grounds,
