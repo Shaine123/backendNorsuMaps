@@ -23,7 +23,7 @@ app.get('/', (req,res) => {
 })
 
 app.post('/register', async(req,res) => {
-   const {name,password,email,phone,studentid} = req.body
+   const {name,password,email,verified,image,phone,studentid} = req.body
    console.log(req.body)
    
    const oldUser = await userSchema.findOne({studentid: studentid})
@@ -37,6 +37,8 @@ app.post('/register', async(req,res) => {
       name: name,
       email: email,
       phone: phone,
+      verified: verified,
+      image: image,
       studentid: studentid,
       password: password
      }).then((result) => res.json(result) )
@@ -53,12 +55,14 @@ app.get('/getAccount', (req,res) => {
 })
 
 app.put('/updateUser', (req,res) => {
-   const {name,password,email,phone,studentid,id} = req.body
+   const {name,password,email,verified,image,phone,studentid} = req.body
     console.log(req.body)
    userSchema.findByIdAndUpdate({_id: id}, {
       name: name,
       email: email,
       phone: phone,
+      verified: verified,
+      image: image,
       studentid: studentid,
       password: password
      }).then((result) => res.json(result) )
