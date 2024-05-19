@@ -104,6 +104,9 @@ app.put('/updateBuilding', (req,res) => {
    const {id,latitude,longitude,latitudeText,longitudeText,title,description,noRooms,noRoomsText,textInfo,numFloors,numRooms,grounds,seconds,thirds,fourths,newImage} = req.body
    console.log(id)
    console.log(req.body)
+
+   // noRooms: noRooms,
+   // noRoomsText: noRoomsText,
    buildingInfoSchema.findByIdAndUpdate({_id: id }, {
       latitude: latitude,
       longitude: longitude,
@@ -111,8 +114,6 @@ app.put('/updateBuilding', (req,res) => {
       longitudeText: longitudeText,
       title: title,
       description: description,
-      noRooms: noRooms,
-      noRoomsText: noRoomsText,
       textInfo: textInfo,
       numFloors: numFloors,
       numRooms: numRooms,
