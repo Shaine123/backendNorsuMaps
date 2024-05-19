@@ -6,7 +6,7 @@ const UserDetailSchema = new mongoose.Schema({
    phone: String,
    studentid: {type: String , unique: true},
    verified: String,
-   image: String,
+   refImage: String,
    password: String
 
 })

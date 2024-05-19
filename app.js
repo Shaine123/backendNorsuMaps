@@ -38,7 +38,7 @@ app.post('/register', async(req,res) => {
       email: email,
       phone: phone,
       verified: verified,
-      image: image,
+      refImage: image,
       studentid: studentid,
       password: password
      }).then((result) => res.json(result) )
@@ -62,7 +62,7 @@ app.put('/updateUser', (req,res) => {
       email: email,
       phone: phone,
       verified: verified,
-      image: image,
+      refImage: image,
       studentid: studentid,
       password: password
      }).then((result) => res.json(result) )
