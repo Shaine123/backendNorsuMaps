@@ -125,6 +125,13 @@ app.put('/updateBuilding', (req,res) => {
    .catch((error) => res.json(error))
 })
 
+app.delete('/deleteBuilding/:id', (req,res) => {
+    
+   const {id} = req.params
+   buildingInfoSchema.findByIdAndDelete({_id:id})
+   .then((result) => res.json(result))
+   .catch((error) => res.json(error))
+})
 app.get('/getBuilding', (req,res) => {
    console.log('send building info')
    buildingInfoSchema.find()
