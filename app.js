@@ -55,7 +55,7 @@ app.get('/getAccount', (req,res) => {
 })
 
 app.put('/updateUser', (req,res) => {
-   const {name,password,email,verified,refImage,phone,studentid} = req.body
+   const {id,name,password,email,verified,refImage,phone,studentid} = req.body
     console.log(req.body)
    userSchema.findByIdAndUpdate({_id: id}, {
       name: name,
