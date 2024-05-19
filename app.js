@@ -76,7 +76,7 @@ app.delete('/deleteUser/:id', (req,res) => {
 const buildingInfoSchema = require('./Schema/BuildingInfo')
 
 app.post('/addBuilding', (req,res) => {
-     const {latitude,longitude,latitudeText,longitudeText,title,description,noRooms,textInfo,numFloors,numRooms,grounds,seconds,thirds,fourths,newImage} = req.body
+     const {latitude,longitude,latitudeText,longitudeText,title,description,noRooms,noRoomsText,textInfo,numFloors,numRooms,grounds,seconds,thirds,fourths,newImage} = req.body
        
      console.log(req.body)
      buildingInfoSchema.create({
@@ -87,6 +87,7 @@ app.post('/addBuilding', (req,res) => {
       title: title,
       description: description,
       noRooms: noRooms,
+      noRoomsText: noRoomsText,
       textInfo: textInfo,
       numFloors: numFloors,
       numRooms: numRooms,

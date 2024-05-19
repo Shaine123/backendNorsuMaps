@@ -8,6 +8,7 @@ const BuildingInfoSchema = new mongoose.Schema({
    title: String,
    description: String,
    noRooms: Boolean,
+   noRoomsText: String,
    textInfo: String,
    numFloors: Number,
    numRooms: Number,
