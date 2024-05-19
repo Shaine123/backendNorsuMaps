@@ -3,8 +3,11 @@ const mongoose = require('mongoose')
 const BuildingInfoSchema = new mongoose.Schema({
    latitude: Number,
    longitude: Number,
+   latitudeText: Number,
+   longitudeText: Number,
    title: String,
    description: String,
+   noRooms: Boolean,
    textInfo: String,
    numFloors: Number,
    numRooms: Number,
