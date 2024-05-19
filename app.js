@@ -100,6 +100,30 @@ app.post('/addBuilding', (req,res) => {
      .then((result) => res.json(result) )
      .catch((error) => res.json(error))
 })
+app.put('/updateBuilding', (req,res) => {
+   const {id,latitude,longitude,latitudeText,longitudeText,title,description,noRooms,noRoomsText,textInfo,numFloors,numRooms,grounds,seconds,thirds,fourths,newImage} = req.body
+
+   buildingInfoSchema.findByIdAndUpdate({_id: id }, {
+      latitude: latitude,
+      longitude: longitude,
+      latitudeText: latitudeText,
+      longitudeText: longitudeText,
+      title: title,
+      description: description,
+      noRooms: noRooms,
+      noRoomsText: noRoomsText,
+      textInfo: textInfo,
+      numFloors: numFloors,
+      numRooms: numRooms,
+      roomGroundFloor: grounds,
+      roomSecondFloor: seconds,
+      roomThirdFloor: thirds,
+      roomFourthFloor: fourths,
+      buildingNewImage: newImage
+   })
+   .then((result) => res.json(result))
+   .catch((error) => res.json(error))
+})
 
 app.get('/getBuilding', (req,res) => {
    console.log('send building info')
