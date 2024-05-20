@@ -145,6 +145,47 @@ app.get('/getBuilding', (req,res) => {
    .catch((error) => {res.json(error)} )
 })
 
+const emergencyInfoSchema = require('./Schema/EmergencyInfo')
+
+app.post('/addEmergencyInfo', (req,res) => {
+
+   const {fireStationNumbers,policeStationNumbers,cdrmmoNumbers,cpsoNumbers,ambulanceNumber,healthOfficeNumber,norecoNumbers,coastGuardNumbers} = req.body
+
+   emergencyInfoSchema.create({
+      fireStationNumbers: fireStationNumbers,
+      policeStationNumbers: policeStationNumbers,
+      cdrmmoNumbers: cdrmmoNumbers,
+      cpsoNumbers: cpsoNumbers,
+      ambulanceNumber: ambulanceNumber,
+      healthOfficeNumber: healthOfficeNumber,
+      norecoNumbers: norecoNumbers,
+      coastGuardNumbers: coastGuardNumbers,
+   })
+   .then((result) => {res.json(result)})
+   .catch((error) => {res.json(error)} )
+})
+app.put('/editEmergencyInfo', (req,res) => {
+   const {id,fireStationNumbers,policeStationNumbers,cdrmmoNumbers,cpsoNumbers,ambulanceNumber,healthOfficeNumber,norecoNumbers,coastGuardNumbers} = req.body
+
+   emergencyInfoSchema.findByIdAndUpdate({_id:id},{
+      fireStationNumbers: fireStationNumbers,
+      policeStationNumbers: policeStationNumbers,
+      cdrmmoNumbers: cdrmmoNumbers,
+      cpsoNumbers: cpsoNumbers,
+      ambulanceNumber: ambulanceNumber,
+      healthOfficeNumber: healthOfficeNumber,
+      norecoNumbers: norecoNumbers,
+      coastGuardNumbers: coastGuardNumbers,
+   })
+   .then((result) => {res.json(result)})
+   .catch((error) => {res.json(error)} )
+})
+
+app.get('/getEmergencyInfo', (req,res) => {
+   emergencyInfoSchema.find()
+   .then((result) => {res.json(result)})
+   .catch((error) => {res.json(error)} )
+})
 app.listen(3003,()=>{
    console.log('Server has Started')
 })
