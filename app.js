@@ -212,6 +212,36 @@ app.get('/getEnrollmentProcess', (req,res) => {
    .catch((error) => {res.json(error)} )
 })
 
+const BuildingSearchInfo = require('./Schema/BuildingSearchInfo')
+app.post('/addBuildingSearchInfo', async (req,res) => {
+   try {
+      const {buildingInfo} = req.body;
+      console.log(buildingInfo)
+      const newBuildingSearchInfo = new BuildingSearchInfo(buildingInfo);
+      const savedBuildingSearchInfo = await newBuildingSearchInfo.save();
+      res.status(201).json(savedBuildingSearchInfo);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+})
+app.put('/editBuildingSearchInfo', async (req,res) => {
+   try {
+      const {buildingInfo} = req.body;
+      console.log(buildingInfo)
+      const newBuildingSearchInfo = new BuildingSearchInfo(buildingInfo);
+      const savedBuildingSearchInfo = await newBuildingSearchInfo.save();
+      res.status(201).json(savedBuildingSearchInfo);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+})
+app.get('/getBuildingSearchInfo', (req,res) => {
+   BuildingSearchInfo.find()
+   .then((result) => res.json(result))
+   .catch((error) => res.json(error))
+})
+
+
 app.get('/getEmergencyInfo', (req,res) => {
    emergencyInfoSchema.find()
    .then((result) => {res.json(result)})
