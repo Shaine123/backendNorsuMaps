@@ -181,6 +181,37 @@ app.put('/editEmergencyInfo', (req,res) => {
    .catch((error) => {res.json(error)} )
 })
 
+const Enrollment = require('./Schema/EnrollmentSchema')
+
+app.post('/addEnrolmentProcess', async (req,res) => {
+   try {
+      const {enrollmentData} = req.body;
+      console.log(enrollmentData)
+      const newEnrollment = new Enrollment(enrollmentData);
+      const savedEnrollment = await newEnrollment.save();
+      res.status(201).json(savedEnrollment);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+})
+
+app.put('/editEnrolmentProcess', async (req,res) => {
+   try {
+      const enrollmentData = req.body;
+      const newEnrollment = new Enrollment(enrollmentData);
+      const savedEnrollment = await newEnrollment.save();
+      res.status(201).json(savedEnrollment);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+})
+
+app.get('getEnrollmentProcess', async (req,res) => {
+   Enrollment.find()
+   .then((result) => {res.json(result)})
+   .catch((error) => {res.json(error)})
+})
+
 app.get('/getEmergencyInfo', (req,res) => {
    emergencyInfoSchema.find()
    .then((result) => {res.json(result)})
