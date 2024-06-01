@@ -206,10 +206,10 @@ app.put('/editEnrolmentProcess', async (req,res) => {
     }
 })
 
-app.get('getEnrollmentProcess', async (req,res) => {
+app.get('/getEnrollmentProcess', (req,res) => {
    Enrollment.find()
    .then((result) => {res.json(result)})
-   .catch((error) => {res.json(error)})
+   .catch((error) => {res.json(error)} )
 })
 
 app.get('/getEmergencyInfo', (req,res) => {
