@@ -15,7 +15,7 @@ const mongooseUrl = "mongodb+srv://admin:NgNSzeoN3QXq72Vv@cluster0.jhovera.mongo
 
 
 
-mongoose.connect(mongooseUrl)
+mongoose.connect(mongooseUrl,{ useNewUrlParser: true, useUnifiedTopology: true })
 .then(()=>{
    console.log('Database Connected')
 })
