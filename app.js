@@ -49,11 +49,15 @@ app.post('/upload', upload.single('file'), (req, res) => {
     res.json({ file: req.file });
 });
 
-app.get('/files/:filename', async (req, res) => {
-    const {filename} = req.params
-   const file = await gfs.find({ filename: filename});
-   const readStream = gfs.openDownloadStream(file._id);
-   readStream.pipe(res);
+app.get('/files/:filename', (req, res) => {
+   gfs.find({ filename: req.params.filename }).toArray((err, files) => {
+      if (!files || files.length === 0) {
+          return res.status(404).json({
+              err: 'No files exist'
+          });
+      }
+      gfs.openDownloadStreamByName(req.params.filename).pipe(res);
+  });
 });
 
 
