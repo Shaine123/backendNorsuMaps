@@ -83,7 +83,7 @@ let transporter = nodemailer.createTransport({
 
 app.post('/send-email', (req, res) => {
    const { to, subject, text, html } = req.body;
-
+   console.log(req.body)
    // Set up email data
    let mailOptions = {
        from: `"Admin" <karmaakubane@gmail.com>`, // Sender address
