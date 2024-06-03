@@ -86,7 +86,7 @@ app.post('/send-email', (req, res) => {
 
    // Set up email data
    let mailOptions = {
-       from: `"Your Name" <karmaakubane@gmail.com>`, // Sender address
+       from: `"Admin" <karmaakubane@gmail.com>`, // Sender address
        to: to, // List of recipients
        subject: subject, // Subject line
        text: text, // Plain text body
