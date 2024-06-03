@@ -77,7 +77,7 @@ let transporter = nodemailer.createTransport({
    secure: true, // True for 465, false for other ports
    auth: {
        user: 'karmaakubane@gmail.com', // Stored in environment variable
-       pass: 'demonslayershaine123'  // Stored in environment variable
+       pass: 'yguv rdak rhjz sved'  // Stored in environment variable
    }
 });
 
