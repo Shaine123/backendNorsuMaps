@@ -6,6 +6,7 @@ const bodyParser = require('body-parser');
 const { GridFsStorage } = require('multer-gridfs-storage');
 const { GridFSBucket } = require('mongodb');
 const multer = require('multer');
+const nodemailer = require('nodemailer');
 
 app.use(bodyParser.json());
 app.use(cors())
@@ -68,28 +69,39 @@ app.get('/files/:filename', (req, res) => {
        });
    })
   
-   // filesCollection.findOne({ filename: req.params.filename }, (err, file) => {
-   //     if (err) {
-   //         console.error('Error while fetching file:', err);
-   //         return res.status(500).json({ err: 'Error while fetching file' });
-   //     }
+});
 
-   //     if (!file) {
-   //         console.log('No files found with the specified filename:', req.params.filename);
-   //         return res.status(404).json({ err: 'No files exist' });
-   //     }
+let transporter = nodemailer.createTransport({
+   host: 'smtp.gmail.com', // Replace with your SMTP server
+   port: 587, // Port for TLS/STARTTLS
+   secure: false, // True for 465, false for other ports
+   auth: {
+       user: 'karmaakubane@gmail.com', // Stored in environment variable
+       pass: 'demonslayershaine123'  // Stored in environment variable
+   }
+});
 
-   //     const downloadStream = gfs.openDownloadStreamByName(req.params.filename);
-       
-   //     downloadStream.on('error', (error) => {
-   //         console.error('Error while streaming file:', error);
-   //         res.status(500).json({ err: 'Error while streaming file' });
-   //     });
+app.post('/send-email', (req, res) => {
+   const { to, subject, text, html } = req.body;
 
-   //     downloadStream.pipe(res).on('finish', () => {
-   //         console.log('File successfully streamed to client');
-   //     });
-   // });
+   // Set up email data
+   let mailOptions = {
+       from: `"Your Name" <karmaakubane@gmail.com>`, // Sender address
+       to: to, // List of recipients
+       subject: subject, // Subject line
+       text: text, // Plain text body
+       html: html // HTML body
+   };
+
+   // Send email with defined transport object
+   transporter.sendMail(mailOptions, (error, info) => {
+       if (error) {
+           console.error('Error while sending email:', error);
+           return res.status(500).json({ error: 'Error while sending email' });
+       }
+       console.log('Message sent: %s', info.messageId);
+       res.status(200).json({ message: 'Email sent successfully', messageId: info.messageId });
+   });
 });
 
 
