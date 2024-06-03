@@ -67,7 +67,7 @@ app.get('/', (req,res) => {
 })
 
 app.post('/register', async(req,res) => {
-   const {name,password,email,verified,refImage,phone,studentid} = req.body
+   const {name,password,email,verified,refImage,fileName,phone,studentid} = req.body
    console.log(req.body)
    
    const oldUser = await userSchema.findOne({studentid: studentid})
@@ -83,6 +83,7 @@ app.post('/register', async(req,res) => {
       phone: phone,
       verified: verified,
       refImage: refImage,
+      fileName: fileName,
       studentid: studentid,
       password: password
      }).then((result) => res.json(result) )
