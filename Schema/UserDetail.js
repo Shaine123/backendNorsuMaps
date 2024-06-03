@@ -7,6 +7,7 @@ const UserDetailSchema = new mongoose.Schema({
    studentid: {type: String , unique: true},
    verified: Boolean,
    refImage: String,
+   fileName: String,
    password: String
 
 })
