@@ -51,7 +51,7 @@ app.post('/upload', upload.single('file'), (req, res) => {
 
 app.get('/files/:filename', async (req, res) => {
     const {filename} = req.params
-   const file = await gfs.files.findOne({ filename: filename});
+   const file = await gfs.files.find({ filename: filename});
    const readStream = gfs.openDownloadStream(file._id);
    readStream.pipe(res);
 });
