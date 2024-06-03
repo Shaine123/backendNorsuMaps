@@ -53,10 +53,29 @@ app.get('/files/:filename', (req, res) => {
    console.log(`Received request to retrieve file: ${req.params.filename}`);
     
    const filesCollection = conn.db.collection('uploads.files');
-   console.log(filesCollection)
-   const result = filesCollection.findOne({ filename: req.params.filename })
-   console.log(result)
 
+   filesCollection.findOne({ filename: req.params.filename }, (err, file) => {
+      // if (err) {
+      //     console.error('Error while fetching file:', err);
+      //     return res.status(500).json({ err: 'Error while fetching file' });
+      // }
+
+      // if (!file) {
+      //     console.log('No files found with the specified filename:', req.params.filename);
+      //     return res.status(404).json({ err: 'No files exist' });
+      // }
+      console.log('working file')
+      const downloadStream = gfs.openDownloadStreamByName(req.params.filename);
+      
+      downloadStream.on('error', (error) => {
+          console.error('Error while streaming file:', error);
+          res.status(500).json({ err: 'Error while streaming file' });
+      });
+
+      downloadStream.pipe(res).on('finish', () => {
+          console.log('File successfully streamed to client');
+      });
+  });
    // filesCollection.findOne({ filename: req.params.filename }, (err, file) => {
    //     if (err) {
    //         console.error('Error while fetching file:', err);
