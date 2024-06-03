@@ -45,6 +45,7 @@ const upload = multer({ storage });
 
 // Routes
 app.post('/upload', upload.single('file'), (req, res) => {
+   console.log('uploaded data')
     res.json({ file: req.file });
 });
 
