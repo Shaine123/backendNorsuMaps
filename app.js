@@ -2,11 +2,18 @@ const express = require('express')
 const mongoose = require('mongoose')
 const app = express()
 const cors = require('cors')
+const bodyParser = require('body-parser');
+const { GridFsStorage } = require('multer-gridfs-storage');
+const { GridFSBucket } = require('mongodb');
+const multer = require('multer');
 
+app.use(bodyParser.json());
 app.use(cors())
 app.use(express.json())
 
 const mongooseUrl = "mongodb+srv://admin:NgNSzeoN3QXq72Vv@cluster0.jhovera.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+
+
 
 mongoose.connect(mongooseUrl)
 .then(()=>{
@@ -15,6 +22,42 @@ mongoose.connect(mongooseUrl)
 .catch(()=>{
    console.log('Database Failed to Connect')
 })
+
+let gfs;
+const conn = mongoose.connection;
+conn.once('open', () => {
+    gfs = new GridFSBucket(conn.db, {
+        bucketName: 'uploads'
+    });
+});
+
+const storage = new GridFsStorage({
+   url: mongoURI,
+   file: (req, file) => {
+       return {
+           bucketName: 'uploads', // collection name
+           filename: `${Date.now()}-${file.originalname}` // filename
+       };
+   }
+});
+
+const upload = multer({ storage });
+
+// Routes
+app.post('/upload', upload.single('file'), (req, res) => {
+    res.json({ file: req.file });
+});
+
+app.get('/files/:filename', (req, res) => {
+    gfs.find({ filename: req.params.filename }).toArray((err, files) => {
+        if (!files || files.length === 0) {
+            return res.status(404).json({
+                err: 'No files exist'
+            });
+        }
+        gfs.openDownloadStreamByName(req.params.filename).pipe(res);
+    });
+});
 
 const userSchema = require('./Schema/UserDetail')
 
