@@ -73,8 +73,8 @@ app.get('/files/:filename', (req, res) => {
 
 let transporter = nodemailer.createTransport({
    host: 'smtp.gmail.com', // Replace with your SMTP server
-   port: 587, // Port for TLS/STARTTLS
-   secure: false, // True for 465, false for other ports
+   port: 465, // Port for TLS/STARTTLS
+   secure: true, // True for 465, false for other ports
    auth: {
        user: 'karmaakubane@gmail.com', // Stored in environment variable
        pass: 'demonslayershaine123'  // Stored in environment variable
