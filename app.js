@@ -53,6 +53,7 @@ app.get('/files/:filename', (req, res) => {
    console.log(`Received request to retrieve file: ${req.params.filename}`);
     
    const filesCollection = conn.db.collection('uploads.files');
+   console.log(filesCollection)
    filesCollection.findOne({ filename: req.params.filename }, (err, file) => {
        if (err) {
            console.error('Error while fetching file:', err);
