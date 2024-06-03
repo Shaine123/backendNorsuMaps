@@ -32,7 +32,7 @@ conn.once('open', () => {
 });
 
 const storage = new GridFsStorage({
-   url: mongoURI,
+   url: mongooseUrl,
    file: (req, file) => {
        return {
            bucketName: 'uploads', // collection name
