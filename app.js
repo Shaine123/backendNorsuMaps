@@ -56,7 +56,16 @@ app.get('/files/:filename', (req, res) => {
 
    filesCollection.findOne({ filename: req.params.filename })
    .then((result) => {
-      console.log(result)
+      const downloadStream = gfs.openDownloadStreamByName(result.filename);
+       
+       downloadStream.on('error', (error) => {
+           console.error('Error while streaming file:', error);
+           res.status(500).json({ err: 'Error while streaming file' });
+       });
+
+       downloadStream.pipe(res).on('finish', () => {
+           console.log('File successfully streamed to client');
+       });
    })
   
    // filesCollection.findOne({ filename: req.params.filename }, (err, file) => {
