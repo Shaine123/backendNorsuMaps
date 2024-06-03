@@ -54,28 +54,31 @@ app.get('/files/:filename', (req, res) => {
     
    const filesCollection = conn.db.collection('uploads.files');
    console.log(filesCollection)
-   filesCollection.findOne({ filename: req.params.filename }, (err, file) => {
-       if (err) {
-           console.error('Error while fetching file:', err);
-           return res.status(500).json({ err: 'Error while fetching file' });
-       }
+   const result = filesCollection.findOne({ filename: req.params.filename })
+   console.log(result)
 
-       if (!file) {
-           console.log('No files found with the specified filename:', req.params.filename);
-           return res.status(404).json({ err: 'No files exist' });
-       }
+   // filesCollection.findOne({ filename: req.params.filename }, (err, file) => {
+   //     if (err) {
+   //         console.error('Error while fetching file:', err);
+   //         return res.status(500).json({ err: 'Error while fetching file' });
+   //     }
 
-       const downloadStream = gfs.openDownloadStreamByName(req.params.filename);
+   //     if (!file) {
+   //         console.log('No files found with the specified filename:', req.params.filename);
+   //         return res.status(404).json({ err: 'No files exist' });
+   //     }
+
+   //     const downloadStream = gfs.openDownloadStreamByName(req.params.filename);
        
-       downloadStream.on('error', (error) => {
-           console.error('Error while streaming file:', error);
-           res.status(500).json({ err: 'Error while streaming file' });
-       });
+   //     downloadStream.on('error', (error) => {
+   //         console.error('Error while streaming file:', error);
+   //         res.status(500).json({ err: 'Error while streaming file' });
+   //     });
 
-       downloadStream.pipe(res).on('finish', () => {
-           console.log('File successfully streamed to client');
-       });
-   });
+   //     downloadStream.pipe(res).on('finish', () => {
+   //         console.log('File successfully streamed to client');
+   //     });
+   // });
 });
 
 
