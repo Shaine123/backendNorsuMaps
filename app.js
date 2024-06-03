@@ -50,6 +50,8 @@ app.post('/upload', upload.single('file'), (req, res) => {
 });
 
 app.get('/files/:filename', (req, res) => {
+   console.log(req.params.filename)
+   console.log('files')
     gfs.find({ filename: req.params.filename }).toArray((err, files) => {
         if (!files || files.length === 0) {
             return res.status(404).json({
