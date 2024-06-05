@@ -24,12 +24,15 @@ mongoose.connect(mongooseUrl)
    console.log('Database Failed to Connect')
 })
 
-let gfs;
+let gfs,gfsImages;
 const conn = mongoose.connection;
 conn.once('open', () => {
     gfs = new GridFSBucket(conn.db, {
         bucketName: 'uploads'
     });
+    gfsImages = new GridFSBucket(conn.db, {
+      bucketName: 'buildingImages'
+  });
 });
 
 const storage = new GridFsStorage({
@@ -42,7 +45,18 @@ const storage = new GridFsStorage({
    }
 });
 
+const storageBuildingImage = new GridFsStorage({
+   url: mongooseUrl,
+   file: (req, file) => {
+       return {
+           bucketName: 'buildingImages', // collection name
+           filename: `${Date.now()}-${file.originalname}` // filename
+       };
+   }
+});
+
 const upload = multer({ storage });
+const uploadBuildingImage = multer({ storage: storageBuildingImage });
 
 // Routes
 app.post('/upload', upload.single('file'), (req, res) => {
@@ -58,6 +72,32 @@ app.get('/files/:filename', (req, res) => {
    filesCollection.findOne({ filename: req.params.filename })
    .then((result) => {
       const downloadStream = gfs.openDownloadStreamByName(result.filename);
+       
+       downloadStream.on('error', (error) => {
+           console.error('Error while streaming file:', error);
+           res.status(500).json({ err: 'Error while streaming file' });
+       });
+
+       downloadStream.pipe(res).on('finish', () => {
+           console.log('File successfully streamed to client');
+       });
+   })
+  
+});
+
+app.post('/uploadBuildingImg', uploadBuildingImage.single('file'), (req, res) => {
+   console.log('uploaded data')
+    res.json({ file: req.file });
+});
+
+app.get('/filesBuilgindImg/:filename', (req, res) => {
+   console.log(`Received request to retrieve file: ${req.params.filename}`);
+    
+   const filesCollection = conn.db.collection('buildingImages.files');
+
+   filesCollection.findOne({ filename: req.params.filename })
+   .then((result) => {
+      const downloadStream = gfsImages.openDownloadStreamByName(result.filename);
        
        downloadStream.on('error', (error) => {
            console.error('Error while streaming file:', error);
