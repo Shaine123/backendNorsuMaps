@@ -5,8 +5,8 @@ const emergencyInfoSchema = new mongoose.Schema({
   policeStationNumbers: Object,
   cdrmmoNumbers: Object,
   cpsoNumbers: Object,
-  ambulanceNumber: String,
-  healthOfficeNumber: String,
+  ambulanceNumber: Object,
+  healthOfficeNumber: Object,
   norecoNumbers: Object,
   coastGuardNumbers: Object,
 });
