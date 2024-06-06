@@ -282,10 +282,10 @@ app.post('/addEmergencyInfo', async (req,res) => {
    const newAgency = req.body;
    console.log(newAgency)
    try {
-     let emergencyInfo = await EmergencyInfo.findOne({});
+     let emergencyInfo = await emergencyInfoSchema.findOne({});
      
      if (!emergencyInfo) {
-       emergencyInfo = new EmergencyInfo({ dynamicAgencies: {} });
+       emergencyInfo = new emergencyInfoSchema({ dynamicAgencies: {} });
      }
      
      emergencyInfo.dynamicAgencies = { ...emergencyInfo.dynamicAgencies, ...newAgency };
