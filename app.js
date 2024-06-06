@@ -329,15 +329,22 @@ app.post('/addEnrolmentProcess', async (req,res) => {
 })
 
 app.put('/editEnrolmentProcess', async (req,res) => {
+   const { enrollmentData } = req.body;
+
    try {
-      const {enrollmentData} = req.body;
-      console.log(enrollmentData)
-      const newEnrollment = new Enrollment(enrollmentData);
-      const savedEnrollment = await newEnrollment.save();
-      res.status(201).json(savedEnrollment);
-    } catch (error) {
-      res.status(500).json({ error: error.message });
-    }
+     let enrollmentInfo = await Enrollment.findOne({});
+     
+     if (!enrollmentInfo) {
+       enrollmentInfo = new Enrollment({ enrollmentData });
+     } else {
+       enrollmentInfo.enrollmentData = enrollmentData;
+     }
+     
+     const updatedInfo = await enrollmentInfo.save();
+     res.json(updatedInfo);
+   } catch (err) {
+     res.status(500).send(err);
+   }
 })
 
 app.get('/getEnrollmentProcess', (req,res) => {
