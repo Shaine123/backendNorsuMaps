@@ -368,15 +368,14 @@ app.post('/addBuildingSearchInfo', async (req,res) => {
     }
 })
 app.put('/editBuildingSearchInfo', async (req,res) => {
+   const updatedBuildings = req.body.buildingInfo;
    try {
-      const {buildingInfo} = req.body;
-      console.log(buildingInfo)
-      const newBuildingSearchInfo = new BuildingSearchInfo(buildingInfo);
-      const savedBuildingSearchInfo = await newBuildingSearchInfo.save();
-      res.status(201).json(savedBuildingSearchInfo);
-    } catch (error) {
-      res.status(500).json({ error: error.message });
-    }
+     await BuildingSearchInfo.deleteMany({});
+     await BuildingSearchInfo.insertMany(updatedBuildings);
+     res.json({ message: 'Building information updated successfully' });
+   } catch (err) {
+     res.status(500).json({ message: err.message });
+   }
 })
 app.get('/getBuildingSearchInfo', (req,res) => {
    BuildingSearchInfo.find()
