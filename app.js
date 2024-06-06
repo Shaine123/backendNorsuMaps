@@ -330,7 +330,7 @@ app.post('/addEnrolmentProcess', async (req,res) => {
 
 app.put('/editEnrolmentProcess', async (req,res) => {
    const { enrollmentData } = req.body;
-
+   console.log(enrollmentData.CAS.steps)
    try {
      let enrollmentInfo = await Enrollment.findOne({});
      
@@ -340,7 +340,7 @@ app.put('/editEnrolmentProcess', async (req,res) => {
        enrollmentInfo.enrollmentData = enrollmentData;
      }
      
-     console.log(enrollmentInfo.CAS.steps)
+   //   console.log(enrollmentInfo.CAS.steps)
      const updatedInfo = await enrollmentInfo.save();
      res.json(updatedInfo);
    } catch (err) {
