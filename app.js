@@ -330,17 +330,18 @@ app.post('/addEnrolmentProcess', async (req,res) => {
 
 app.put('/editEnrolmentProcess', async (req,res) => {
    const { enrollmentData } = req.body;
-   console.log(enrollmentData.CAS.steps)
+
    try {
      let enrollmentInfo = await Enrollment.findOne({});
-     
+ 
      if (!enrollmentInfo) {
-       enrollmentInfo = new Enrollment({ enrollmentData });
+       enrollmentInfo = new Enrollment(enrollmentData);
      } else {
-       enrollmentInfo.enrollmentData = enrollmentData;
+       Object.keys(enrollmentData).forEach((key) => {
+         enrollmentInfo[key] = enrollmentData[key];
+       });
      }
      
-   //   console.log(enrollmentInfo.CAS.steps)
      const updatedInfo = await enrollmentInfo.save();
      res.json(updatedInfo);
    } catch (err) {
