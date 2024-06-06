@@ -357,15 +357,14 @@ app.get('/getEnrollmentProcess', (req,res) => {
 
 const BuildingSearchInfo = require('./Schema/BuildingSearchInfo')
 app.post('/addBuildingSearchInfo', async (req,res) => {
+   const buildingInfo = req.body.buildingInfo;
+   const building = new BuildingSearchInfo(buildingInfo);
    try {
-      const {buildingInfo} = req.body;
-      console.log(buildingInfo)
-      const newBuildingSearchInfo = new BuildingSearchInfo(buildingInfo);
-      const savedBuildingSearchInfo = await newBuildingSearchInfo.save();
-      res.status(201).json(savedBuildingSearchInfo);
-    } catch (error) {
-      res.status(500).json({ error: error.message });
-    }
+     const newBuilding = await building.save();
+     res.status(201).json(newBuilding);
+   } catch (err) {
+     res.status(400).json({ message: err.message });
+   }
 })
 app.put('/editBuildingSearchInfo', async (req,res) => {
    const updatedBuildings = req.body.buildingInfo;
