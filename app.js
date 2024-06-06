@@ -340,6 +340,7 @@ app.put('/editEnrolmentProcess', async (req,res) => {
        enrollmentInfo.enrollmentData = enrollmentData;
      }
      
+     console.log(enrollmentInfo.CAS.steps)
      const updatedInfo = await enrollmentInfo.save();
      res.json(updatedInfo);
    } catch (err) {
