@@ -292,7 +292,7 @@ app.post('/addEmergencyInfo', async (req,res) => {
   }
 })
 app.put('/editEmergencyInfo', (req,res) => {
-   const {id,fireStationNumbers,policeStationNumbers,cdrmmoNumbers,cpsoNumbers,ambulanceNumber,healthOfficeNumber,norecoNumbers,coastGuardNumbers} = req.body
+   const {id,fireStationNumbers,policeStationNumbers,cdrmmoNumbers,cpsoNumbers,ambulanceNumber,healthOfficeNumber,norecoNumbers,coastGuardNumbers,dynamicAgencies} = req.body
 
    emergencyInfoSchema.findByIdAndUpdate({_id:id},{
       fireStationNumbers: fireStationNumbers,
@@ -303,6 +303,7 @@ app.put('/editEmergencyInfo', (req,res) => {
       healthOfficeNumber: healthOfficeNumber,
       norecoNumbers: norecoNumbers,
       coastGuardNumbers: coastGuardNumbers,
+      dynamicAgencies: dynamicAgencies
    })
    .then((result) => {res.json(result)})
    .catch((error) => {res.json(error)} )

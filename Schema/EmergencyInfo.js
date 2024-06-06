@@ -9,6 +9,7 @@ const emergencyInfoSchema = new mongoose.Schema({
   healthOfficeNumber: Object,
   norecoNumbers: Object,
   coastGuardNumbers: Object,
+  dynamicAgencies: Object
 });
 
 const emergencyModal = mongoose.model('Emergency', emergencyInfoSchema)
