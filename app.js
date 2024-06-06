@@ -279,17 +279,22 @@ const emergencyInfoSchema = require('./Schema/EmergencyInfo')
 
 app.post('/addEmergencyInfo', async (req,res) => {
 
-   const newAgency = new EmergencyInfo({
-      name: req.body.name,
-      number: req.body.number,
-  });
-
-  try {
-      const savedAgency = await newAgency.save();
-      res.status(201).json(savedAgency);
-  } catch (err) {
-      res.status(400).json({ message: err.message });
-  }
+   const newAgency = req.body;
+   console.log(newAgency)
+   try {
+     let emergencyInfo = await EmergencyInfo.findOne({});
+     
+     if (!emergencyInfo) {
+       emergencyInfo = new EmergencyInfo({ dynamicAgencies: {} });
+     }
+     
+     emergencyInfo.dynamicAgencies = { ...emergencyInfo.dynamicAgencies, ...newAgency };
+     await emergencyInfo.save();
+ 
+     res.json(newAgency);
+   } catch (err) {
+     res.status(500).send(err);
+   }
 })
 app.put('/editEmergencyInfo', (req,res) => {
    const {id,fireStationNumbers,policeStationNumbers,cdrmmoNumbers,cpsoNumbers,ambulanceNumber,healthOfficeNumber,norecoNumbers,coastGuardNumbers,dynamicAgencies} = req.body
