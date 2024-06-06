@@ -331,6 +331,7 @@ app.post('/addEnrolmentProcess', async (req,res) => {
 app.put('/editEnrolmentProcess', async (req,res) => {
    try {
       const {enrollmentData} = req.body;
+      console.log(enrollmentData)
       const newEnrollment = new Enrollment(enrollmentData);
       const savedEnrollment = await newEnrollment.save();
       res.status(201).json(savedEnrollment);
