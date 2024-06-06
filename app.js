@@ -277,22 +277,19 @@ app.get('/getBuilding', (req,res) => {
 
 const emergencyInfoSchema = require('./Schema/EmergencyInfo')
 
-app.post('/addEmergencyInfo', (req,res) => {
+app.post('/addEmergencyInfo', async (req,res) => {
 
-   const {fireStationNumbers,policeStationNumbers,cdrmmoNumbers,cpsoNumbers,ambulanceNumber,healthOfficeNumber,norecoNumbers,coastGuardNumbers} = req.body
+   const newAgency = new EmergencyInfo({
+      name: req.body.name,
+      number: req.body.number,
+  });
 
-   emergencyInfoSchema.create({
-      fireStationNumbers: fireStationNumbers,
-      policeStationNumbers: policeStationNumbers,
-      cdrmmoNumbers: cdrmmoNumbers,
-      cpsoNumbers: cpsoNumbers,
-      ambulanceNumber: ambulanceNumber,
-      healthOfficeNumber: healthOfficeNumber,
-      norecoNumbers: norecoNumbers,
-      coastGuardNumbers: coastGuardNumbers,
-   })
-   .then((result) => {res.json(result)})
-   .catch((error) => {res.json(error)} )
+  try {
+      const savedAgency = await newAgency.save();
+      res.status(201).json(savedAgency);
+  } catch (err) {
+      res.status(400).json({ message: err.message });
+  }
 })
 app.put('/editEmergencyInfo', (req,res) => {
    const {id,fireStationNumbers,policeStationNumbers,cdrmmoNumbers,cpsoNumbers,ambulanceNumber,healthOfficeNumber,norecoNumbers,coastGuardNumbers} = req.body
