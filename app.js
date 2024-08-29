@@ -12,8 +12,8 @@ app.use(bodyParser.json());
 app.use(cors())
 app.use(express.json())
 
-const mongooseUrl = "mongodb+srv://admin:NgNSzeoN3QXq72Vv@cluster0.jhovera.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
-// const mongooseUrl = "mongodb+srv://admin2:TbZsakWRkKYMdLqX@cluster0.jhovera.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+// const mongooseUrl = "mongodb+srv://admin:NgNSzeoN3QXq72Vv@cluster0.jhovera.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+const mongooseUrl = "mongodb+srv://admin2:TbZsakWRkKYMdLqX@cluster0.jhovera.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
 
 // const mongooseUrl = "mongodb+srv://admin:NgNSzeoN3QXq72Vv@cluster0.jhovera.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
 
