@@ -84,6 +84,7 @@ const s3 = new AWS.S3({
 
  app.post('/uploadS3', upload2.single('file'), (req, res) => {
    const file = req.file;
+    console.log('file',file)
    const s3Params = {
      Bucket: process.env.S3_BUCKET,
      Key: `uploads/${uuid()}.jpg`,
@@ -91,7 +92,7 @@ const s3 = new AWS.S3({
      ContentType: file.mimetype,
      ACL: 'public-read',
    };
- 
+    console.log('s3Params',s3Params)
    s3.upload(s3Params, (err, data) => {
      if (err) {
        return res.status(500).json({ message: 'Upload failed', error: err });
