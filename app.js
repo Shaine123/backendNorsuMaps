@@ -10,7 +10,7 @@ const nodemailer = require('nodemailer');
 const AWS = require('aws-sdk');
 const uuid = require('uuid').v4;
 const dotenv = require('dotenv')
-
+const nodeMailer = require('nodemailer')
 app.use(bodyParser.json());
 app.use(cors())
 app.use(express.json())
@@ -61,6 +61,36 @@ const storageBuildingImage = new GridFsStorage({
        };
    }
 });
+
+let transporters = nodeMailer.createTransport({
+   host: 'smtp.gmail.com',
+   port: 465,
+   secure: true,
+   auth: {
+     user: process.env.EMAIL,
+     pass: process.env.PASSWORD
+   }
+})
+
+app.post('/sendNewEmail',(req,res) => {
+    const {to} = req.body
+
+    const sendNewMessage = {
+       from: `Me <shaineberdida@gmail.com>`,
+       to: to,
+       subject: 'verification',
+       text: 'Congratulations your account has been verified',
+       html: ''
+    }
+
+    transporters.sendMail(sendNewMessage,(error,info) => {
+       if(error){
+         console.log(`Error exist: ${error}`)
+       }
+       console.log(`Message Sent: ${info.messageId}`)
+    })
+})
+
 
 const upload = multer({ storage });
 const uploadBuildingImage = multer({ storage: storageBuildingImage });
