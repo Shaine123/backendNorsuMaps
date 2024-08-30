@@ -90,7 +90,6 @@ const s3 = new AWS.S3({
      Key: `uploads/${uuid()}.jpg`,
      Body: file.buffer,
      ContentType: file.mimetype,
-     ACL: 'public-read',
    };
     console.log('s3Params',s3Params)
    s3.upload(s3Params, (err, data) => {
