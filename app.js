@@ -7,11 +7,15 @@ const { GridFsStorage } = require('multer-gridfs-storage');
 const { GridFSBucket } = require('mongodb');
 const multer = require('multer');
 const nodemailer = require('nodemailer');
+const AWS = require('aws-sdk');
+const uuid = require('uuid').v4;
+const dotenv = require('dotenv')
 
 app.use(bodyParser.json());
 app.use(cors())
 app.use(express.json())
 
+dotenv.config()
 // const mongooseUrl = "mongodb+srv://admin:NgNSzeoN3QXq72Vv@cluster0.jhovera.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
 const mongooseUrl = "mongodb+srv://admin2:TbZsakWRkKYMdLqX@cluster0.jhovera.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
 
@@ -66,6 +70,38 @@ app.post('/upload', upload.single('file'), (req, res) => {
    console.log('uploaded data')
     res.json({ file: req.file });
 });
+
+//S3 Bucket
+const s3 = new AWS.S3({
+   accessKeyId: process.env.ACCESS_KEY,
+   secretAccessKey: process.env.SECRET_KEY,
+   region: process.env.REGION,
+ });
+
+ const upload2 = multer({
+   storage: multer.memoryStorage(),
+ });
+
+ app.post('/uploadS3', upload2.single('file'), (req, res) => {
+   const file = req.file;
+   const s3Params = {
+     Bucket: process.env.S3_BUCKET,
+     Key: `uploads/${uuid()}.jpg`,
+     Body: file.buffer,
+     ContentType: file.mimetype,
+     ACL: 'public-read',
+   };
+ 
+   s3.upload(s3Params, (err, data) => {
+     if (err) {
+       return res.status(500).json({ message: 'Upload failed', error: err });
+     }
+ 
+     // Return the file's public URL
+     res.status(201).json({ imageUrl: data.Location });
+   });
+ });
+
 
 app.get('/files/:filename', (req, res) => {
    console.log(`Received request to retrieve file: ${req.params.filename}`);
